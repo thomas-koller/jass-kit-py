@@ -65,7 +65,7 @@ def convert_int_encoded_cards_to_str_encoded(cards: List[int]) -> List[str]:
     Returns:
         list of the cards, str encoded
     """
-    return [card_strings[i] for i in cards]
+    return [card_strings[i] for i in cards if i != -1]
 
 
 def convert_one_hot_encoded_cards_to_str_encoded_list(cards: np.ndarray) -> List[str]:

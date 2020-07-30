@@ -28,11 +28,9 @@ def calculate_starting_hands_from_game(game: GameState) -> np.ndarray:
             player = next_player[player]
     return hands
 
-
-def calculate_points_from_tricks(state: GameState) -> np.ndarray:
+def calculate_points_from_tricks(cls, state: 'GameState') -> np.ndarray:
     """
     Calculate the points of the teams from the trick points and trick winners in the state.
-
     Args:
         state: state from which to calculate points
 
@@ -48,7 +46,8 @@ def calculate_points_from_tricks(state: GameState) -> np.ndarray:
     return points
 
 
-def observation_from_state(state: GameState, player:int = -1) -> GameObservation:
+
+def observation_from_state(state: GameState, player: int = -1) -> GameObservation:
     """
     Initialize observation from game state for the given player or the current player if the player is not
     supplied.

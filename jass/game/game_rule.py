@@ -4,6 +4,7 @@
 #
 import numpy as np
 
+from jass.game.game_observation import GameObservation
 from jass.game.game_state import GameState
 
 
@@ -46,6 +47,22 @@ class GameRule:
                                     state.current_trick,
                                     state.nr_cards_in_trick,
                                     state.trump)
+
+    def get_valid_cards_from_obs(self, obs: GameObservation):
+        """
+        Get the valid cards from the observation.
+
+        Precondition:
+            The observation must be from the player whose turn it is too play (obs.player == obs.player_view)
+        Args:
+            obs: Observation of the game from players point of view
+        Returns:
+            one-hot encoded array of valid cards to play
+        """
+        return self.get_valid_cards(obs.hand,
+                                    obs.current_trick,
+                                    obs.nr_cards_in_trick,
+                                    obs.trump)
 
     def calc_points(self, trick: np.ndarray, is_last: bool, trump: int = -1) -> int:
         """

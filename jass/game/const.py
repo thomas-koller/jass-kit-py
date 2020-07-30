@@ -68,6 +68,7 @@ trump_ints = [
 ]
 
 # Jass variants (jassTyp in request message)
+JASS_SCHIEBER = 'SCHIEBER'
 JASS_SCHIEBER_1000 = 'SCHIEBER_1000'
 JASS_SCHIEBER_2500 = 'SCHIEBER_2500'
 JASS_HEARTS = 'HEARTS'

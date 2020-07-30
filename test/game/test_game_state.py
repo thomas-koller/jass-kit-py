@@ -1,10 +1,14 @@
 import copy
+import json
 import unittest
 import numpy as np
 
-from jass.game.const import NORTH
+from jass.agents.agent_random_schieber import AgentRandomSchieber
+from jass.game.const import NORTH, PUSH
+from jass.game.game_observation import GameObservation
 from jass.game.game_sim import GameSim
 from jass.game.game_state import GameState
+from jass.game.game_state_util import observation_from_state
 from jass.game.game_util import deal_random_hand
 from jass.game.rule_schieber import RuleSchieber
 
@@ -50,6 +54,63 @@ class MyTestCase(unittest.TestCase):
         self.assertTrue(game_state == game_state_shallow)
         self.assertTrue(game_state == game_state_deep)
 
+    def test_to_from_json(self):
+        # play a random game
+        rule = RuleSchieber()
+        game = GameSim(rule=rule)
+        agent = AgentRandomSchieber()
+
+        game.init_from_cards(hands=deal_random_hand(), dealer=NORTH)
+
+        # Read/Write at start of game
+        json_str = json.dumps(game.state.to_json())
+        state_read = GameState.from_json(json.loads(json_str))
+        self.assertTrue(game.state == state_read)
+        # same for observation
+        for i in range(4):
+            obs = observation_from_state(game.state, player=i)
+            json_str = json.dumps(obs.to_json())
+            obs_read = GameObservation.from_json(json.loads(json_str))
+            self.assertTrue(obs == obs_read)
+
+        # start game with pushing for trump selection
+        game.action_trump(PUSH)
+        json_str = json.dumps(game.state.to_json())
+        state_read = GameState.from_json(json.loads(json_str))
+        self.assertTrue(game.state == state_read)
+        # same for observation
+        for i in range(4):
+            obs = observation_from_state(game.state, player=i)
+            json_str = json.dumps(obs.to_json())
+            obs_read = GameObservation.from_json(json.loads(json_str))
+            self.assertTrue(obs == obs_read)
+
+        # use agent to select trump
+        game.action_trump(agent.action_trump(game.get_observation()))
+        json_str = json.dumps(game.state.to_json())
+        state_read = GameState.from_json(json.loads(json_str))
+        self.assertTrue(game.state == state_read)
+        # same for observation
+        for i in range(4):
+            obs = observation_from_state(game.state, player=i)
+            json_str = json.dumps(obs.to_json())
+            obs_read = GameObservation.from_json(json.loads(json_str))
+            self.assertTrue(obs == obs_read)
+
+        while not game.is_done():
+            game.action_play_card(agent.action_play_card(game.get_observation()))
+
+            # write and read from state
+            json_str = json.dumps(game.state.to_json())
+            state_read = GameState.from_json(json.loads(json_str))
+            self.assertTrue(game.state == state_read)
+
+            # same for observation
+            for i in range(4):
+                obs = observation_from_state(game.state, player=i)
+                json_str = json.dumps(obs.to_json())
+                obs_read = GameObservation.from_json(json.loads(json_str))
+                self.assertTrue(obs == obs_read)
 
 if __name__ == '__main__':
     unittest.main()

@@ -11,6 +11,7 @@ import numpy as np
 from jass.game.const import next_player, PUSH, partner_player, NORTH, SOUTH
 from jass.game.game_rule import GameRule
 from jass.game.game_state import GameState
+from jass.game.game_state_util import observation_from_state
 
 
 class GameSim:
@@ -38,11 +39,12 @@ class GameSim:
         self._state.trick_winner.fill(-1)
         self._state.trick_points.fill(0)
         self._state.trick_first_player.fill(-1)
-        self._state.trick_first_player[0] = self._state.player
         self._state.current_trick = self._state.tricks[0, :]
         self._state.nr_tricks = 0
         self._state.nr_cards_in_trick = 0
         self._state.nr_played_cards = 0
+        self._state.points[0] = 0
+        self._state.points[1] = 0
 
     @property
     def rule(self):
@@ -53,10 +55,13 @@ class GameSim:
         return self._state
 
     def get_observation(self):
-        pass
+        """
+        Get the observation for the current player in the current state of the game.
 
-    def get_observation_full(self):
-        pass
+        Returns:
+            The observation for the current player.
+        """
+        return observation_from_state(self._state)
 
     def action_trump(self, action: int) -> None:
         if self._state.forehand == -1:
@@ -147,5 +152,5 @@ class GameSim:
             self._state.current_trick = self._state.tricks[self._state.nr_tricks, :]
         else:
             # end of round
-            self._state.player = None
+            self._state.player = -1
             self._state.current_trick = None
