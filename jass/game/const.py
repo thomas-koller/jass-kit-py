@@ -13,6 +13,9 @@ Constants, tables and small utility function for the jass game.
 
 import numpy as np
 
+# format to read / write dates in dict/json
+DATE_FORMAT = '%d.%m.%y %H:%M:%S'
+
 #
 # Numerical values correspond to the values in the obtained interface definition
 #

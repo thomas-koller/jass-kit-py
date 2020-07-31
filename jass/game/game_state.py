@@ -23,8 +23,7 @@ class GameState:
 
     The class captures only the data without any logic how to change the data consistently.
     """
-    # format to read / write dates in dict/json
-    DATE_FORMAT = '%d.%m.%y %H:%M:%S'
+
     # version of game state
     FORMAT_VERSION = 'V0.2'
     
