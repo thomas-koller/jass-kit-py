@@ -8,7 +8,7 @@ from jass.game.const import NORTH, PUSH
 from jass.game.game_observation import GameObservation
 from jass.game.game_sim import GameSim
 from jass.game.game_state import GameState
-from jass.game.game_state_util import observation_from_state
+from jass.game.game_state_util import observation_from_state, calculate_starting_hands_from_game, state_from_complete_game, state_for_trump_from_complete_game
 from jass.game.game_util import deal_random_hand
 from jass.game.rule_schieber import RuleSchieber
 
@@ -111,6 +111,51 @@ class MyTestCase(unittest.TestCase):
                 json_str = json.dumps(obs.to_json())
                 obs_read = GameObservation.from_json(json.loads(json_str))
                 self.assertTrue(obs == obs_read)
+
+    def test_from_complete_game(self):
+        # play a random game
+        rule = RuleSchieber()
+        game = GameSim(rule=rule)
+        agent = AgentRandomSchieber()
+
+        hands_initial = deal_random_hand()
+
+        game.init_from_cards(hands=hands_initial, dealer=NORTH)
+
+        # select trump randomly
+        state_trump_forehand = copy.deepcopy(game.state)
+        action = agent.action_trump(game.get_observation())
+        game.action_trump(action)
+
+        state_trump_rearhand = None
+
+        if action == PUSH:
+            state_trump_rearhand = copy.deepcopy(game.state)
+            action = agent.action_trump(game.get_observation())
+            game.action_trump(action)
+
+        states = []
+        while not game.is_done():
+            states.append(copy.deepcopy(game.state))
+            game.action_play_card(agent.action_play_card(game.get_observation()))
+
+
+        # calculate starting hands from complete games
+        hands_calculated = calculate_starting_hands_from_game(game.state)
+        self.assertTrue((hands_initial == hands_calculated).all())
+
+        for c in range(36):
+            state_calculated = state_from_complete_game(game.state, c)
+            rule.assert_invariants(state_calculated)
+            self.assertTrue(state_calculated == states[c])
+
+        state_calculated_forehand = state_for_trump_from_complete_game(game.state, for_forhand=True)
+        self.assertTrue(state_trump_forehand == state_calculated_forehand)
+
+        if game.state.forehand == 0:
+            state_calculated_rearhand = state_for_trump_from_complete_game(game.state, for_forhand=False)
+            self.assertTrue(state_trump_rearhand == state_calculated_rearhand)
+
 
 if __name__ == '__main__':
     unittest.main()

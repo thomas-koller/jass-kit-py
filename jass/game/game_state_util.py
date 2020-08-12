@@ -4,7 +4,7 @@
 #
 import numpy as np
 
-from jass.game.const import next_player
+from jass.game.const import next_player, partner_player
 from jass.game.game_observation import GameObservation
 from jass.game.game_state import GameState
 
@@ -28,7 +28,8 @@ def calculate_starting_hands_from_game(game: GameState) -> np.ndarray:
             player = next_player[player]
     return hands
 
-def calculate_points_from_tricks(cls, state: 'GameState') -> np.ndarray:
+
+def calculate_points_from_tricks(state: 'GameState') -> np.ndarray:
     """
     Calculate the points of the teams from the trick points and trick winners in the state.
     Args:
@@ -44,7 +45,6 @@ def calculate_points_from_tricks(cls, state: 'GameState') -> np.ndarray:
         else:
             points[1] += state.trick_points[trick]
     return points
-
 
 
 def observation_from_state(state: GameState, player: int = -1) -> GameObservation:
@@ -109,7 +109,7 @@ def state_from_complete_game(game: GameState, cards_played: int) -> GameState:
         cards_played: the number of cards played for which the state should be created
 
     Returns:
-        a PlayerRound object for the state when the cards have been played.
+        a GameState object for the state when the cards have been played.
 
     """
     state = GameState()
@@ -179,7 +179,42 @@ def state_from_complete_game(game: GameState, cards_played: int) -> GameState:
             card_played = game.tricks[game_nr, card_nr]
             state.hands[player, card_played] = 1
             player = next_player[player]
+    return state
 
-    state.hand = state.hands[state.player, :]
+
+def state_for_trump_from_complete_game(game: GameState, for_forhand: bool) -> GameState:
+    """
+    Create the state of a game from the state of a completed game for the trump selection.
+
+    Preconditions:
+        0 <= cards_played <= 35
+        game.nr_played_cards == 36
+
+    Args:
+        game: The state of the completed game from which to create the state.
+        for_forhand: Create the state for the forehand player
+
+    Returns:
+        a GameState object for the state when the trump has been selected
+
+    """
+    state = GameState()
+
+    state.dealer = game.dealer
+    state.trump = -1
+
+    if for_forhand:
+        state.forehand = -1
+        state.player = next_player[state.dealer]
+    else:
+        if game.forehand == 1:
+            raise ValueError('Requested action for backhand, when game was forehand ')
+        else:
+            state.forehand = 0
+            state.player = partner_player[next_player[state.dealer]]
+
+    state.nr_played_cards = 0
+
+    state.hands[:, :] = calculate_starting_hands_from_game(game)
 
     return state

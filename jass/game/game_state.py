@@ -158,6 +158,17 @@ class GameState:
         data['jassTyp'] = JASS_SCHIEBER
         return data
 
+    def get_card_played(self, card_nr: int) -> int:
+        """
+        Get the card played at a certain time. Utility method.
+
+        Returns:
+            the card that was played as the card_nr card in the game
+        """
+        nr_trick, card_in_trick = divmod(card_nr, 4)
+        return int(self.tricks[nr_trick, card_in_trick])
+
+
     @classmethod
     def from_json(cls, data: dict):
         """
@@ -177,7 +188,11 @@ class GameState:
         # jass_typ = data['jassTyp']
 
         state.dealer = data['dealer']
-        state.player = data['currentPlayer']
+
+        if 'currentPlayer' in data:
+            state.player = data['currentPlayer']
+        else:
+            state.player = -1
 
         if 'trump' in data:
             state.trump = data['trump']
