@@ -11,9 +11,9 @@ from jass.game.game_state import GameState
 
 def calculate_starting_hands_from_game(game: GameState) -> np.ndarray:
     """
-    Calculate the hands of the players at the beginning of the game from a completed game.
+    Calculate the hands of the players at the beginning of the match from a completed match.
     Args:
-        game: state of a completed game
+        game: state of a completed match
 
     Returns:
         array with hand cards of each player
@@ -49,15 +49,15 @@ def calculate_points_from_tricks(state: 'GameState') -> np.ndarray:
 
 def observation_from_state(state: GameState, player: int = -1) -> GameObservation:
     """
-    Initialize observation from game state for the given player or the current player if the player is not
+    Initialize observation from match state for the given player or the current player if the player is not
     supplied.
 
     Args:
-        state: The game state from which to determine the observation
+        state: The match state from which to determine the observation
         player: player for which to create the observation or -1 for the current player
 
     Returns:
-        the observation for a given game state for the view of the player
+        the observation for a given match state for the view of the player
     """
     obs = GameObservation()
 
@@ -98,14 +98,14 @@ def observation_from_state(state: GameState, player: int = -1) -> GameObservatio
 
 def state_from_complete_game(game: GameState, cards_played: int) -> GameState:
     """
-    Create the state of a game from the state of a completed game for a specific card played
+    Create the state of a match from the state of a completed match for a specific card played
 
     Preconditions:
         0 <= cards_played <= 35
-        game.nr_played_cards == 36
+        match.nr_played_cards == 36
 
     Args:
-        game: The state of the completed game from which to create the state.
+        game: The state of the completed match from which to create the state.
         cards_played: the number of cards played for which the state should be created
 
     Returns:
@@ -160,7 +160,7 @@ def state_from_complete_game(game: GameState, cards_played: int) -> GameState:
         state.player = next_player[state.dealer]
 
     # determine hand still held by the player, which are the cards that the player will play in the next
-    # tricks of the full game, that are not played yet
+    # tricks of the full match, that are not played yet
 
     # add cards for completed tricks
     nr_tricks_completed = state.nr_tricks
@@ -184,14 +184,14 @@ def state_from_complete_game(game: GameState, cards_played: int) -> GameState:
 
 def state_for_trump_from_complete_game(game: GameState, for_forhand: bool) -> GameState:
     """
-    Create the state of a game from the state of a completed game for the trump selection.
+    Create the state of a match from the state of a completed match for the trump selection.
 
     Preconditions:
         0 <= cards_played <= 35
-        game.nr_played_cards == 36
+        match.nr_played_cards == 36
 
     Args:
-        game: The state of the completed game from which to create the state.
+        game: The state of the completed match from which to create the state.
         for_forhand: Create the state for the forehand player
 
     Returns:
@@ -208,7 +208,7 @@ def state_for_trump_from_complete_game(game: GameState, for_forhand: bool) -> Ga
         state.player = next_player[state.dealer]
     else:
         if game.forehand == 1:
-            raise ValueError('Requested action for backhand, when game was forehand ')
+            raise ValueError('Requested action for backhand, when match was forehand ')
         else:
             state.forehand = 0
             state.player = partner_player[next_player[state.dealer]]

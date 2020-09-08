@@ -12,26 +12,26 @@ from jass.game.game_util import convert_int_encoded_cards_to_str_encoded, \
 
 class GameState:
     """
-    State of the game.
+    State of the match.
 
-     A GameState object captures the information in the following stages of the game:
+     A GameState object captures the information in the following stages of the match:
     - Cards have been dealt, but no trump is selected yet
     - The first player that is allowed to choose trump has passed this right to the partner (optional)
     - Trump has been declared by either player from the team that declares trump, but no card has been played yet
     - Between 1 and 35 cards have been played
-    - The last card has been played, which is the end of the game.
+    - The last card has been played, which is the end of the match.
 
     The class captures only the data without any logic how to change the data consistently.
     """
 
-    # version of game state
+    # version of match state
     FORMAT_VERSION = 'V0.2'
     
     def __init__(self) -> None:
         """
         Initialize the class. All numpy arrays will be allocated.
         """
-        # dealer of the game
+        # dealer of the match
         self.dealer: int = -1
 
         # player of the next action, i.e. declaring trump or playing a card
@@ -163,7 +163,7 @@ class GameState:
         Get the card played at a certain time. Utility method.
 
         Returns:
-            the card that was played as the card_nr card in the game
+            the card that was played as the card_nr card in the match
         """
         nr_trick, card_in_trick = divmod(card_nr, 4)
         return int(self.tricks[nr_trick, card_in_trick])
@@ -206,11 +206,11 @@ class GameState:
         else:
             if 'tss' in data and data['tss'] == 1:
                 state.forehand = 0
-            elif state.trump is not -1:
+            elif state.trump != -1:
                 # only set if trump has been declared
                 state.forehand = 1
             else:
-                # beginning of the game, when trump has not been set yet
+                # beginning of the match, when trump has not been set yet
                 state.forehand = -1
 
         if state.trump != -1:

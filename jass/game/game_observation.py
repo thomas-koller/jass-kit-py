@@ -13,7 +13,7 @@ from jass.game.game_util import convert_int_encoded_cards_to_str_encoded, \
 
 class GameObservation:
     """
-    Observation of the state of the game from a player's view. This is the same as the GameState, except that
+    Observation of the state of the match from a player's view. This is the same as the GameState, except that
     a player does not see the hands (cards) of the other players:
         - the dealer
         - the player that declared trump,
@@ -28,7 +28,7 @@ class GameObservation:
         - the current player
         - the hand of the player
 
-     Similarly to game state, the GameObservation captures the information in the following stages of the game:
+     Similarly to match state, the GameObservation captures the information in the following stages of the match:
     - Cards have been dealt, but no trump is selected yet (and it is the player's turn to select trump)
     - The first player that is allowed to choose trump has passed this right to the partner, and it is the
     partners player's turn to select trump
@@ -40,14 +40,14 @@ class GameObservation:
     these cases, the variable GameObservation.player_view is used.
     """
 
-    # version of game observation (in json)
+    # version of match observation (in json)
     FORMAT_VERSION = 'V0.2'
 
     def __init__(self) -> None:
         """
         Initialize the class. All numpy arrays will be allocated.
         """
-        # dealer of the game
+        # dealer of the match
         self.dealer: int = -1
 
         # player of the next action, i.e. declaring trump or playing a card. T

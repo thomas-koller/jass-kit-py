@@ -10,7 +10,7 @@ from jass.game.game_state import GameState
 
 class GameRule:
     """
-    Class for implementing rules of the jass game. The class includes rules that depend not on the process (like
+    Class for implementing rules of the jass match. The class includes rules that depend not on the process (like
     how trump is determined), but only upon cards. Currently this includes to determine the valid cards to play
     in a trick, to determine the winner of a trick and the points of a trick.
 
@@ -39,7 +39,7 @@ class GameRule:
         """
         Get the valid cards from the state for the current player.
         Args:
-            state: The current state of the game
+            state: The current state of the match
         Returns:
             one-hot encoded array of valid cards to play
         """
@@ -55,7 +55,7 @@ class GameRule:
         Precondition:
             The observation must be from the player whose turn it is too play (obs.player == obs.player_view)
         Args:
-            obs: Observation of the game from players point of view
+            obs: Observation of the match from players point of view
         Returns:
             one-hot encoded array of valid cards to play
         """

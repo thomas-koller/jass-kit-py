@@ -11,12 +11,12 @@ from jass.game.game_util import convert_one_hot_encoded_cards_to_str_encoded_lis
 
 class LabelPlay:
     """
-    Class to define (possible) training information for a specific action in the game when it is in the playing
+    Class to define (possible) training information for a specific action in the match when it is in the playing
     stage (i.e. not in the trump defining stage).
 
     This includes the card played, the points made in the current trick by the own team and the other, the player who
     won the trick, the points made in the round by the own team and the other and the hands the players had at the
-    beginning of the game.
+    beginning of the match.
 
     (Adding both the points for own and opposite team for the points in the trick eliminates needing to know the
     current player. Adding the information about the exact winner (instead of the team) might help to forecast the

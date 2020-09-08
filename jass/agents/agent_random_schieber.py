@@ -12,7 +12,7 @@ from jass.game.rule_schieber import RuleSchieber
 
 class AgentRandomSchieber (Agent):
     """
-    Randomly select actions for the game of jass (Schieber)
+    Randomly select actions for the match of jass (Schieber)
     """
     def __init__(self):
         # log actions
@@ -26,7 +26,7 @@ class AgentRandomSchieber (Agent):
         """
         Select trump randomly. Pushing is selected with probability 0.5 if possible.
         Args:
-            obs: the current game
+            obs: the current match
         Returns:
             trump action
         """
@@ -41,7 +41,7 @@ class AgentRandomSchieber (Agent):
         """
         Select randomly a card from the valid cards
         Args:
-            obs: The observation of the jass game for the current player
+            obs: The observation of the jass match for the current player
         Returns:
             card to play
         """

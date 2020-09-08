@@ -3,7 +3,7 @@
 # Created by Thomas Koller on 24.07.18
 #
 """
-Constants, tables and small utility function for the jass game.
+Constants, tables and small utility function for the jass match.
 """
 
 # Implementation notes:

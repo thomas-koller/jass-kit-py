@@ -4,3 +4,5 @@
 #
 
 # new base package for main classes
+name='match' \
+     ''
