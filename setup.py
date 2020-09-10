@@ -9,7 +9,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="jass_kit",
-    version="2.0",
+    version="2.0.2",
     author="ABIZ HSLU",
     author_email="thomas.koller@hslu.ch",
     description="Package for the match of jass",
