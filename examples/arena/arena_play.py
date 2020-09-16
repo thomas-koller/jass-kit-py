@@ -50,7 +50,7 @@ def main():
     logging.basicConfig(level=logging.WARNING)
 
     # setup the arena
-    arena = Arena(nr_games_to_play=1000, )
+    arena = Arena(nr_games_to_play=1000, save_filename='arena_games')
     player = AgentRandomSchieber()
     my_player = MyAgent()
 

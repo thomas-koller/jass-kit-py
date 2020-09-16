@@ -17,7 +17,7 @@ class AgentRandomSchieber (Agent):
     def __init__(self):
         # log actions
         self._logger = logging.getLogger(__name__)
-        self._logger.setLevel(logging.INFO)
+        # self._logger.setLevel(logging.INFO)
         # Use rule object to determine valid actions
         self._rule = RuleSchieber()
         # init random number generator

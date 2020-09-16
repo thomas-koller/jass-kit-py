@@ -70,13 +70,13 @@ class GameState:
         self.current_trick = self.tricks[0, :]
 
         # the number of completed tricks
-        self.nr_tricks = 0
+        self.nr_tricks: int = 0
 
         # the number of card in the current trick
-        self.nr_cards_in_trick = 0
+        self.nr_cards_in_trick: int = 0
 
         # the total number of played cards (derived)
-        self.nr_played_cards = 0
+        self.nr_played_cards: int = 0
 
         self.points = np.zeros(shape=2, dtype=np.int32)
 

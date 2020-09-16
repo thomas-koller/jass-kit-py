@@ -4,7 +4,9 @@
 #
 import logging
 import sys
+from datetime import datetime
 from typing import List
+
 import numpy as np
 
 from jass.agents.agent import Agent
@@ -14,6 +16,8 @@ from jass.game.const import NORTH, EAST, SOUTH, WEST, DIAMONDS, MAX_TRUMP, PUSH,
 from jass.game.game_observation import GameObservation
 from jass.game.game_sim import GameSim
 from jass.game.rule_schieber import RuleSchieber
+from jass.logs.game_log_entry import GameLogEntry
+from jass.logs.log_entry_file_generator import LogEntryFileGenerator
 
 
 class Arena:
@@ -72,7 +76,7 @@ class Arena:
         # Save file if enabled
         if save_filename is not None:
             self._save_games = True
-            #self._file_generator = RoundLogEntryFileGenerator(basename=save_filename, max_entries=100000)
+            self._file_generator = LogEntryFileGenerator(basename=save_filename, max_entries=100000, shuffle=False)
         else:
             self._save_games = False
 
@@ -209,16 +213,16 @@ class Arena:
         Returns:
 
         """
-        #if self._save_games:
-        #    round_log_entry = RoundLogEntry(rnd=self._rnd, date=datetime.now(), player_ids=self._player_ids)
-        #    self._file_generator.add_entry(round_log_entry)
+        if self._save_games:
+            entry = GameLogEntry(game=self._game.state, date=datetime.now(), player_ids=self._player_ids)
+            self._file_generator.add_entry(entry.to_json())
 
     def play_all_games(self):
         """
         Play the number of games.
         """
-        #if self._save_games:
-        #    self._file_generator.__enter__()
+        if self._save_games:
+            self._file_generator.__enter__()
         dealer = NORTH
         for game_id in range(self._nr_games_to_play):
             self.play_game(dealer=dealer)
@@ -230,8 +234,7 @@ class Arena:
                                                                           self.nr_games_played,
                                                                           self._nr_games_to_play))
             dealer = next_player[dealer]
-        #if self._save_games:
-            # TODO: enable saving
-            # self._file_generator.__exit__(None, None, None)
+        if self._save_games:
+            self._file_generator.__exit__(None, None, None)
         sys.stdout.write('\n')
 
