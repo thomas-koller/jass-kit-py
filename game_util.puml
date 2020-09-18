@@ -1,4 +1,5 @@
 @startuml
+title Game utils
 class game.game_state_util {
 {static} calculate_starting_hands_from_game()
 {static} calculate_points_from_tricks()

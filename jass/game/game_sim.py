@@ -3,7 +3,7 @@
 # Created by Thomas Koller on 7/22/2020
 #
 
-# Simulator for a match
+# Simulator for a game
 
 import copy
 import numpy as np
@@ -16,13 +16,13 @@ from jass.game.game_state_util import observation_from_state
 
 class GameSim:
     """
-    Class for simulating a match. A match consists of selecting trump and playing 36 cards, currently the trump selection
-    phase is implemented for Schieber. For other versions of the match regarding the order of actions, the class can be
-    overridden. The actual rules of the match, points scoring, winning tricks and calculating which cards are allowed
+    Class for simulating a game. A game consists of selecting trump and playing 36 cards, currently the trump selection
+    phase is implemented for Schieber. For other versions of the game regarding the order of actions, the class can be
+    overridden. The actual rules of the game, points scoring, winning tricks and calculating which cards are allowed
     to be played are implemented in the rule class.
     """
     def __init__(self, rule: GameRule):
-        # the internal state of the match is stored in a GameState object that can be set and retrieved
+        # the internal state of the game is stored in a GameState object that can be set and retrieved
         self._state = GameState()
         self._rule = rule
 
@@ -56,7 +56,7 @@ class GameSim:
 
     def get_observation(self):
         """
-        Get the observation for the current player in the current state of the match.
+        Get the observation for the current player in the current state of the game.
 
         Returns:
             The observation for the current player.
@@ -120,10 +120,10 @@ class GameSim:
 
     def is_done(self):
         """
-        Return true if the match is finished.
+        Return true if the game is finished.
 
         Returns:
-            true if the match is finished, false otherwise
+            true if the game is finished, false otherwise
         """
         return self._state.nr_played_cards == 36
 
