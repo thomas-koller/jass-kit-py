@@ -315,3 +315,6 @@ same_team = np.array(
         [True, False, True, False],
         [False, True, False, True]
     ], np.bool)
+
+# team 0/1 of players
+team = np.array([0, 1, 0, 1])

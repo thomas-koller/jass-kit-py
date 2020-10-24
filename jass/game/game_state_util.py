@@ -218,3 +218,37 @@ def state_for_trump_from_complete_game(game: GameState, for_forhand: bool) -> Ga
     state.hands[:, :] = calculate_starting_hands_from_game(game)
 
     return state
+
+
+def obs_for_trump_from_complete_game(game: GameState) -> (GameObservation, GameObservation or None):
+    """
+    Get observations for trump selection for forehand and rearhand from a complete game record. If the game has
+    trump declared as forehand, the second observation is None
+    Args:
+        game: full game
+    Returns:
+        tuple of observations
+    """
+    hands = calculate_starting_hands_from_game(game)
+
+    obs = GameObservation()
+    obs.dealer = game.dealer
+    obs.player = next_player[game.dealer]
+    obs.hand[:] = hands[obs.player, :]
+    obs.forehand = -1
+    obs.nr_played_cards = 0
+
+    if game.forehand == 0:
+        obs2 = GameObservation()
+        obs2.dealer = game.dealer
+        obs2.player = partner_player[next_player[game.dealer]]
+        obs2.hand[:] = hands[obs2.player, :]
+        obs2.forehand = 0
+        obs2.nr_played_cards = 0
+
+        return obs, obs2
+    else:
+        return obs, None
+
+
+

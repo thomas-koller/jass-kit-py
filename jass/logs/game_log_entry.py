@@ -27,7 +27,7 @@ class GameLogEntry:
         self.player_ids = player_ids
 
     def __eq__(self, other):
-        return self.game == other.match and self.date == other.date and self.player_ids == other.player_ids
+        return self.game == other.game and self.date == other.date and self.player_ids == other.player_ids
 
     def to_json(self) -> dict:
         """
@@ -42,6 +42,6 @@ class GameLogEntry:
 
     @classmethod
     def from_json(cls, data):
-        return GameLogEntry(game=GameState.from_json(data['match']),
+        return GameLogEntry(game=GameState.from_json(data['game']),
                             date=datetime.strptime(data['date'], DATE_FORMAT),
                             player_ids=data['player_ids'])

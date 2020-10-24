@@ -9,7 +9,7 @@ import logging
 
 from jass.game.const import PUSH
 from jass.game.rule_schieber import RuleSchieber
-from logs.log_entry_file_generator import LogEntryFileGenerator
+from jass.logs.log_entry_file_generator import LogEntryFileGenerator
 
 from jass.game.game_state_util import state_from_complete_game, observation_from_state, state_for_trump_from_complete_game
 from jass.logs.game_log_entry import GameLogEntry
@@ -68,7 +68,7 @@ def generate_logs(files, output: str, output_dir: str, max_entries_per_file: int
                     #
                     # create entry for each play in the match
                     #
-                    game = entry_game_log.match
+                    game = entry_game_log.game
                     for card in range(36):
                         state = state_from_complete_game(game, cards_played=card)
                         rule_debug.assert_invariants(state)
@@ -160,7 +160,7 @@ def main():
     parser.add_argument('--trump', action='store_true', help='Generate files for trump decision')
     parser.add_argument('--shuffle', action='store_true', help='Shuffle entries')
     parser.add_argument('--output', type=str, help='Base name of the output files', default='')
-    parser.add_argument('--output_dir', type=str, help='Directory for output files', default='')
+    parser.add_argument('--output_dir', type=str, help='Directory for output files', default='.')
     parser.add_argument('--max_entry', type=int, default=100000, help='Maximal number of entries in one file')
     parser.add_argument('files', type=str, nargs='+', help='The log files')
 

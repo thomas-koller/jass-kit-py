@@ -48,7 +48,7 @@ class GameLogTestCase(unittest.TestCase):
         data = log_entry.to_json()
         log_entry_read = GameLogEntry.from_json(data)
 
-        self.assertTrue(log_entry.game == log_entry_read.match)
+        self.assertTrue(log_entry.game == log_entry_read.game)
         self.assertTrue(log_entry.date == log_entry_read.date)
         self.assertTrue(log_entry.player_ids == log_entry_read.player_ids)
         self.assertTrue(log_entry == log_entry_read)

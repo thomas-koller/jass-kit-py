@@ -17,7 +17,7 @@ from json import JSONDecodeError
 from typing import List
 
 from jass.game.game_state import GameState
-from logs.log_entry_file_generator import LogEntryFileGenerator
+from jass.logs.log_entry_file_generator import LogEntryFileGenerator
 from jass.logs.game_log_entry import GameLogEntry
 
 
@@ -126,6 +126,8 @@ def main():
 
     logging.basicConfig(level=logging.INFO)
     nr_total = 0
+
+    os.makedirs(arg.output_dir, exist_ok=True)
 
     with LogEntryFileGenerator(basename, arg.max_games, arg.max_buffer) as log:
         for f in files:
