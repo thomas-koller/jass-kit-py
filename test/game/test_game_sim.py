@@ -16,7 +16,7 @@ class GameSimTestCase(unittest.TestCase):
         hands = deal_random_hand()
         game.init_from_cards(hands=hands, dealer=NORTH)
 
-        # play random match
+        # play random game
         game.action_trump(SPADES)
 
         while not game.is_done():
@@ -93,7 +93,7 @@ class GameSimTestCase(unittest.TestCase):
         self.assertEqual(rule.calc_winner(trick, first_player, trump=OBE_ABE), EAST)
         
     def test_complete_game(self):
-        # replay match manually from a log file entry
+        # replay game manually from a log file entry
         # {"trump":5,"dealer":3,"tss":1,"tricks":[{"cards":["C7","CK","C6","CJ"],"points":17,"win":0,"first":2},
         rule = RuleSchieber()
         game = GameSim(rule=rule)
@@ -214,7 +214,7 @@ class GameSimTestCase(unittest.TestCase):
 
         game.init_from_cards(hands=deal_random_hand(), dealer=NORTH)
 
-        # start match with pushing for trump selection
+        # start game with pushing for trump selection
         game.action_trump(PUSH)
         # use agent to select trump
         game.action_trump(agent.action_trump(game.get_observation()))

@@ -10,7 +10,7 @@ from jass.game.game_observation import GameObservation
 
 class GameObsActionLogEntry:
     """
-    Write logs containing the match observation for a single player and the action. The action could either be
+    Write logs containing the game observation for a single player and the action. The action could either be
     a trump action or a play card action (or combined).
 
     Date and player_id information is added so that entries could be filtered by player.

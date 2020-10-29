@@ -12,8 +12,8 @@ from jass.game.game_state import GameState
 
 class RuleSchieber(GameRule):
     """
-    Class for implementing rules of the jass match for the variation for 'Schieber'. These are:
-    - The match is played with trump
+    Class for implementing rules of the jass game for the variation for 'Schieber'. These are:
+    - The game is played with trump
 
     """
 

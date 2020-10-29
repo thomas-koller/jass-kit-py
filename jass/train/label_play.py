@@ -14,7 +14,7 @@ from jass.game.game_util import convert_one_hot_encoded_cards_to_str_encoded_lis
 
 class LabelPlay:
     """
-    Class to define (possible) training information for a specific action in the match when it is in the playing
+    Class to define (possible) training information for a specific action in the game when it is in the playing
     stage (i.e. not in the trump defining stage).
 
     This includes the card played, the points made in the current trick by the own team and the other, the player who

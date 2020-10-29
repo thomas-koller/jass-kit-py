@@ -56,14 +56,14 @@ class MyTestCase(unittest.TestCase):
         self.assertTrue(game_state == game_state_deep)
 
     def test_to_from_json(self):
-        # play a random match
+        # play a random game
         rule = RuleSchieber()
         game = GameSim(rule=rule)
         agent = AgentRandomSchieber()
 
         game.init_from_cards(hands=deal_random_hand(), dealer=NORTH)
 
-        # Read/Write at start of match
+        # Read/Write at start of game
         json_str = json.dumps(game.state.to_json())
         state_read = GameState.from_json(json.loads(json_str))
         self.assertTrue(game.state == state_read)
@@ -74,7 +74,7 @@ class MyTestCase(unittest.TestCase):
             obs_read = GameObservation.from_json(json.loads(json_str))
             self.assertTrue(obs == obs_read)
 
-        # start match with pushing for trump selection
+        # start game with pushing for trump selection
         game.action_trump(PUSH)
         json_str = json.dumps(game.state.to_json())
         state_read = GameState.from_json(json.loads(json_str))
@@ -114,7 +114,7 @@ class MyTestCase(unittest.TestCase):
                 self.assertTrue(obs == obs_read)
 
     def test_from_complete_game(self):
-        # play a random match
+        # play a random game
         rule = RuleSchieber()
         game = GameSim(rule=rule)
         agent = AgentRandomSchieber()
@@ -160,14 +160,14 @@ class MyTestCase(unittest.TestCase):
     def test_obs_state(self):
         # test convertion from state to obs and back
 
-        # play a random match
+        # play a random game
         rule = RuleSchieber()
         game = GameSim(rule=rule)
         agent = AgentRandomSchieber()
 
         game.init_from_cards(hands=deal_random_hand(), dealer=NORTH)
 
-        # start match with pushing for trump selection
+        # start game with pushing for trump selection
         game.action_trump(PUSH)
 
         obs = observation_from_state(game.state, player=-1)

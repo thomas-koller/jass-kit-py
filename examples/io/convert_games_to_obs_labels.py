@@ -66,7 +66,7 @@ def generate_logs(files, output: str, output_dir: str, max_entries_per_file: int
                     entry_game_log = GameLogEntry.from_json(line_dict)
                     nr_entries_read += 1
                     #
-                    # create entry for each play in the match
+                    # create entry for each play in the game
                     #
                     game = entry_game_log.game
                     for card in range(36):
@@ -127,10 +127,10 @@ def generate_logs_trump(files, output: str, output_dir: str, max_entries_per_fil
                     #
                     # create entry for each trump selection
                     #
-                    state = state_for_trump_from_complete_game(entry_game_log.match, for_forhand=True)
+                    state = state_for_trump_from_complete_game(entry_game_log.game, for_forhand=True)
                     obs = observation_from_state(state)
-                    if entry_game_log.match.forehand == 1:
-                        action = entry_game_log.match.trump
+                    if entry_game_log.game.forehand == 1:
+                        action = entry_game_log.game.trump
                     else:
                         action = PUSH
                     entry_obs = GameObsActionLogEntry(obs=obs,
@@ -142,10 +142,10 @@ def generate_logs_trump(files, output: str, output_dir: str, max_entries_per_fil
 
                     if action == PUSH:
                         # add entry for rearhand trump selection
-                        state = state_for_trump_from_complete_game(entry_game_log.match, for_forhand=False)
+                        state = state_for_trump_from_complete_game(entry_game_log.game, for_forhand=False)
                         obs = observation_from_state(state)
                         entry_obs = GameObsActionLogEntry(obs=obs,
-                                                          action=entry_game_log.match.trump,
+                                                          action=entry_game_log.game.trump,
                                                           date=entry_game_log.date,
                                                           player_id=entry_game_log.player_ids[state.player])
                         generator.add_entry(entry_obs.to_json())

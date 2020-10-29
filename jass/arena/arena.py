@@ -62,10 +62,10 @@ class Arena:
         # player ids to use in saved games (if written)
         self._player_ids: List[int] = [0, 0, 0, 0]
 
-        # the current match that is being played
+        # the current game that is being played
         self._game = GameSim(rule=RuleSchieber())
 
-        # we store the points for each match
+        # we store the points for each game
         self._points_team_0 = np.zeros(self._nr_games_to_play)
         self._points_team_1 = np.zeros(self._nr_games_to_play)
 
@@ -169,9 +169,9 @@ class Arena:
 
     def play_game(self, dealer: int) -> None:
         """
-        Play a complete match (36 cards).
+        Play a complete game (36 cards).
         """
-        # init match
+        # init game
         self._game.init_from_cards(dealer=dealer, hands=self._dealing_card_strategy.deal_cards(
             game_nr=self._nr_games_played,
             total_nr_games=self._nr_games_to_play))
@@ -209,7 +209,7 @@ class Arena:
 
     def save_game(self):
         """
-        Save the current match if enabled.
+        Save the current game if enabled.
         Returns:
 
         """

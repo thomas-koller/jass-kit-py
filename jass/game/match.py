@@ -232,9 +232,9 @@ class JassMatch:
 
     def add_game(self, game: GameState) -> None:
         """
-        Add a match to the match. The points are adjusted from the match.
+        Add a game to the match. The points are adjusted from the game.
         Args:
-            game: state of completed match to add
+            game: state of completed game to add
 
         """
         self._games.append(game)

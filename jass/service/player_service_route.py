@@ -42,7 +42,7 @@ def action_play_card(player_name: str):
         logging.warning('player {} not found'.format(player_name))
         return jsonify(error='player not found'), HTTPStatus.BAD_REQUEST
 
-    # check request type and parse data into a match observation
+    # check request type and parse data into a game observation
     if not request.is_json:
         logging.warning('request is not json')
         return jsonify(error='json data expected'), HTTPStatus.UNSUPPORTED_MEDIA_TYPE
@@ -81,7 +81,7 @@ def action_trump(player_name: str):
         logging.warning('player {} not found'.format(player_name))
         return jsonify(error='player not found'), HTTPStatus.BAD_REQUEST
 
-    # check request type and parse data into a match observation
+    # check request type and parse data into a game observation
     if not request.is_json:
         logging.warning('request is not json')
         return jsonify(error='json data expected'), HTTPStatus.UNSUPPORTED_MEDIA_TYPE
@@ -105,11 +105,11 @@ def action_trump(player_name: str):
 @players.route('/<string:player_name>' + SEND_INFO_PREFIX, methods=['POST'])
 def game_info(player_name: str):
     """
-    Receives a match info message about a current changes in the match, which does not require
+    Receives a game info message about a current changes in the game, which does not require
     an action from the player.
 
     This might be used to inform a player about cards played by the other player or the result
-    at the end of the match.
+    at the end of the game.
 
     Args:
         player_name: the name of the desired player
@@ -123,7 +123,7 @@ def game_info(player_name: str):
         logging.warning('player {} not found'.format(player_name))
         return jsonify(error='player not found'), HTTPStatus.BAD_REQUEST
 
-    # check request type and parse data into a match observation
+    # check request type and parse data into a game observation
     if not request.is_json:
         logging.warning('request is not json')
         return jsonify(error='json data expected'), HTTPStatus.UNSUPPORTED_MEDIA_TYPE

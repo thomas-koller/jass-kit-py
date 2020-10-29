@@ -11,15 +11,15 @@ from jass.game.game_state import GameState
 
 class GameLogEntry:
     """
-    Class to capture the information contained in match logs that are saved from real and simulated games
-    and contain the match, the date and information about the players.
+    Class to capture the information contained in game logs that are saved from real and simulated games
+    and contain the game, the date and information about the players.
     """
     def __init__(self, game: GameState, date: datetime = None, player_ids: List[int] = None):
         """
         Game entry
         Args:
-            game: a match state of a completed match
-            date: the data when the match was played
+            game: a game state of a completed game
+            date: the date when the game was played
             player_ids: information about the players
         """
         self.game = game
