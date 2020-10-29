@@ -237,4 +237,3 @@ class Arena:
         if self._save_games:
             self._file_generator.__exit__(None, None, None)
         sys.stdout.write('\n')
-

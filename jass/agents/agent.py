@@ -31,4 +31,3 @@ class Agent:
             the card to play, int encoded as defined in jass.game.const
         """
         raise NotImplementedError
-

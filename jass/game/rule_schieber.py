@@ -146,8 +146,6 @@ class RuleSchieber(GameRule):
                         not_lower_trump_cards = 1 - lower_trump_cards
                         return hand * not_lower_trump_cards
 
-
-
     def calc_points(self, trick: np.ndarray, is_last: bool, trump: int = -1) -> int:
         """
         Calculate the points from the cards in the trick according to the given trump
@@ -281,4 +279,3 @@ class RuleSchieber(GameRule):
             nr_cards_in_current_trick = np.count_nonzero(state.current_trick[:] > -1)
             expected_cards_in_current_trick = (state.nr_played_cards % 4)
             assert nr_cards_in_current_trick == expected_cards_in_current_trick
-

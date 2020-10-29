@@ -118,7 +118,7 @@ def state_from_observation(obs: GameObservation, hands: np.ndarray) -> GameState
     state.forehand = obs.forehand
     state.declared_trump = obs.declared_trump
 
-    state.hands[:,:] = hands[:,:]
+    state.hands[:, :] = hands[:, :]
 
     state.tricks[:, :] = obs.tricks[:, :]
     state.trick_winner[:] = obs.trick_winner[:]
@@ -294,6 +294,3 @@ def obs_for_trump_from_complete_game(game: GameState) -> (GameObservation, GameO
         return obs, obs2
     else:
         return obs, None
-
-
-

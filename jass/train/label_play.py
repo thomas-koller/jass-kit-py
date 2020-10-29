@@ -8,7 +8,6 @@ import numpy as np
 
 from jass.game.const import team, next_player, same_team
 from jass.game.game_state import GameState
-from jass.game.game_state_util import calculate_starting_hands_from_game
 from jass.game.game_util import convert_one_hot_encoded_cards_to_str_encoded_list, get_cards_encoded_from_str
 
 
@@ -41,7 +40,6 @@ class LabelPlay:
         self.points_in_game_own = points_in_game_own
         self.points_in_game_other = points_in_game_other
         self.hands = hands
-
 
     @classmethod
     def get_label_play(cls, game: GameState,  card_nr: int, player: int, hands: np.ndarray,) -> 'LabelPlay':
@@ -80,8 +78,8 @@ class LabelPlay:
                                points_in_trick_other=points_in_trick_other,
                                hands=hands)
         return label_play
-        
-    def to_json(self) -> dict: 
+
+    def to_json(self) -> dict:
         """
         Convert to json
         Returns:
@@ -126,4 +124,3 @@ class LabelPlay:
                          points_in_game_own=data['points_in_game_own'],
                          points_in_game_other=data['points_in_game_other'],
                          hands=hands)
-

@@ -32,6 +32,7 @@ class AgentByNetwork(Agent):
     def action_trump(self, obs: GameObservation) -> int:
         data = obs.to_json()
         data['gameId'] = 0
+        # noinspection PyBroadException
         try:
             self._logger.info('Sending request...')
             response = requests.post(self._url_trump, json=data, timeout=self._timeout)
@@ -43,6 +44,7 @@ class AgentByNetwork(Agent):
             self._logger.error('No response from network player, using standin player')
             return self._standin_player.action_trump(obs)
 
+    # noinspection PyBroadException
     def action_play_card(self, obs: GameObservation) -> int:
         data = obs.to_json()
         data['gameId'] = 0

@@ -12,5 +12,5 @@ class DealingCardRandomStrategy(DealingCardStrategy):
     """
     Deal cards randomly. This is the default implementation.
     """
-    def deal_cards(self, game_nr: int=0, total_nr_games=0) -> np.ndarray:
+    def deal_cards(self, game_nr: int = 0, total_nr_games: int = 0) -> np.ndarray:
         return deal_random_hand()

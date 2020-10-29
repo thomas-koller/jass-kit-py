@@ -48,7 +48,7 @@ class GameObsActionLogEntry:
         Returns:
             GameObsActionLogEntry
         """
-        return GameObsActionLogEntry(obs = GameObservation.from_json(data['obs']),
+        return GameObsActionLogEntry(obs=GameObservation.from_json(data['obs']),
                                      action=int(data['action']),
                                      date=datetime.strptime(data['date'], DATE_FORMAT),
                                      player_id=int(data['player_id']))

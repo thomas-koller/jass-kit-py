@@ -4,7 +4,7 @@
 #
 import numpy as np
 
-from typing import List, Iterable
+from typing import List
 
 from jass.game.const import card_ids, card_strings
 
@@ -80,7 +80,7 @@ def convert_one_hot_encoded_cards_to_str_encoded_list(cards: np.ndarray) -> List
     return [card_strings[i] for i in np.flatnonzero(cards)]
 
 
-def convert_one_hot_encoded_cards_to_int_encoded_list(cards: np.ndarray) -> Iterable[int]:
+def convert_one_hot_encoded_cards_to_int_encoded_list(cards: np.ndarray):
     """
     Get the int encoded array of a one hot encoded array
     Args:
@@ -130,6 +130,3 @@ def deal_random_hand() -> np.ndarray:
     hands[3, cards[27:39]] = 1
 
     return hands
-
-
-

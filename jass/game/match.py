@@ -314,4 +314,3 @@ class JassMatch:
 
         match._games = games_read
         return match
-

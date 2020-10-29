@@ -57,4 +57,3 @@ class AgentRandomSchieber (Agent):
         card = self._rng.choice(np.flatnonzero(valid_cards))
         self._logger.info('Played card: {}'.format(card_strings[card]))
         return card
-

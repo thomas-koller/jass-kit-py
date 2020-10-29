@@ -26,7 +26,7 @@ class GameState:
 
     # version of game state
     FORMAT_VERSION = 'V0.2'
-    
+
     def __init__(self) -> None:
         """
         Initialize the class. All numpy arrays will be allocated.
@@ -86,22 +86,24 @@ class GameState:
             assert other.current_trick is None
             current_tricks_same = True
         else:
+            # noinspection PyUnresolvedReferences
             current_tricks_same = (self.current_trick == other.current_trick).all()
-        return self.dealer == other.dealer and \
-               self.player == other.player and \
-               self.trump == other.trump and \
-               self.forehand == other.forehand and \
-               self.declared_trump == other.declared_trump and \
-               (self.hands == other.hands).all() and \
-               (self.tricks == other.tricks).all() and \
-               (self.trick_first_player == other.trick_first_player).all() and \
-               (self.trick_winner == other.trick_winner).all() and \
-               (self.trick_points == other.trick_points).all() and \
-               self.nr_tricks == other.nr_tricks and \
-               current_tricks_same and \
-               self.nr_cards_in_trick == other.nr_cards_in_trick and \
-               self.nr_played_cards == other.nr_played_cards and \
-               (self.points == other.points).all()
+        return \
+            self.dealer == other.dealer and \
+            self.player == other.player and \
+            self.trump == other.trump and \
+            self.forehand == other.forehand and \
+            self.declared_trump == other.declared_trump and \
+            (self.hands == other.hands).all() and \
+            (self.tricks == other.tricks).all() and \
+            (self.trick_first_player == other.trick_first_player).all() and \
+            (self.trick_winner == other.trick_winner).all() and \
+            (self.trick_points == other.trick_points).all() and \
+            self.nr_tricks == other.nr_tricks and \
+            current_tricks_same and \
+            self.nr_cards_in_trick == other.nr_cards_in_trick and \
+            self.nr_played_cards == other.nr_played_cards and \
+            (self.points == other.points).all()
 
     def __repr__(self):
         return str(self.__dict__)
@@ -168,14 +170,13 @@ class GameState:
         nr_trick, card_in_trick = divmod(card_nr, 4)
         return int(self.tricks[nr_trick, card_in_trick])
 
-
     @classmethod
     def from_json(cls, data: dict):
         """
         Create state from dict (read from json)
         """
         state = GameState()
-        
+
         # if the version is present, it must be the correct version
         # if it is not there we accept the data for backward compatibility and in the future will assume this
         # version number if absent
@@ -265,6 +266,3 @@ class GameState:
             else:
                 state.points[1] += state.trick_points[trick]
         return state
-
-
-

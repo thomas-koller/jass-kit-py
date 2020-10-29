@@ -99,6 +99,7 @@ class GameObservation:
 
         self.points = np.zeros(shape=2, dtype=np.int32)
 
+    # noinspection PyUnresolvedReferences
     def __eq__(self, other: 'GameObservation') -> bool:
         if self.nr_played_cards == 36:
             assert self.current_trick is None
@@ -245,7 +246,7 @@ class GameObservation:
         for i, player_data in enumerate(data['player']):
             if 'hand' in player_data and len(player_data['hand']) > 0:
                 if i != obs.player_view:
-                    logging.getLogger(__name__).error('Hand data for wrong player'.format(i))
+                    logging.getLogger(__name__).error('Hand data for wrong player {}'.format(i))
                 hand = player_data['hand']
                 for card_constant in hand:
                     obs.hand[card_ids[card_constant]] = 1
@@ -258,4 +259,3 @@ class GameObservation:
             else:
                 obs.points[1] += obs.trick_points[trick]
         return obs
-

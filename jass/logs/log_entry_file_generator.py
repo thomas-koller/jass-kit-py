@@ -20,7 +20,7 @@ class LogEntryFileGenerator:
     """
     EXTENSION = '.txt'
 
-    def __init__(self, basename: str, max_entries: int, max_buffer: int=10000, shuffle=True):
+    def __init__(self, basename: str, max_entries: int, max_buffer: int = 10000, shuffle: bool = True):
         """
         Initialize the generator.
 

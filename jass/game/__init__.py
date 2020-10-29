@@ -4,5 +4,5 @@
 #
 
 # new base package for main classes
-name='game' \
+name = 'game' \
      ''

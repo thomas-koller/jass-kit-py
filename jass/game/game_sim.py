@@ -134,7 +134,9 @@ class GameSim:
         # update information about the current trick
         points = self._rule.calc_points(self._state.current_trick, self._state.nr_played_cards == 36, self._state.trump)
         self._state.trick_points[self._state.nr_tricks] = points
-        winner = self._rule.calc_winner(self._state.current_trick, self._state.trick_first_player[self._state.nr_tricks], self._state.trump)
+        winner = self._rule.calc_winner(self._state.current_trick,
+                                        self._state.trick_first_player[self._state.nr_tricks],
+                                        self._state.trump)
         self._state.trick_winner[self._state.nr_tricks] = winner
 
         if winner == NORTH or winner == SOUTH:

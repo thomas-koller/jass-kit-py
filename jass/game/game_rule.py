@@ -97,4 +97,3 @@ class GameRule:
         error is detected.
         """
         raise NotImplementedError
-
