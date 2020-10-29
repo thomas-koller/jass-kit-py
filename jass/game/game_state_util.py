@@ -49,11 +49,11 @@ def calculate_points_from_tricks(state: 'GameState') -> np.ndarray:
 
 def observation_from_state(state: GameState, player: int = -1) -> GameObservation:
     """
-    Initialize observation from match state for the given player or the current player if the player is not
+    Initialize observation from game state for the given player or the current player if the player is not
     supplied.
 
     Args:
-        state: The match state from which to determine the observation
+        state: The game state from which to determine the observation
         player: player for which to create the observation or -1 for the current player
 
     Returns:
@@ -94,6 +94,51 @@ def observation_from_state(state: GameState, player: int = -1) -> GameObservatio
     obs.points[:] = state.points[:]
 
     return obs
+
+
+def state_from_observation(obs: GameObservation, hands: np.ndarray) -> GameState:
+    """
+    Initialize state from an observation and the distribution of all hands.
+
+    Args:
+        obs: The observation from which to create the state
+        hands: The hands of all players, it must match the observation
+
+    Returns:
+        the state
+    """
+    state = GameState()
+
+    state.dealer = obs.dealer
+    state.player = obs.player
+
+    state.player_view = obs.player
+
+    state.trump = obs.trump
+    state.forehand = obs.forehand
+    state.declared_trump = obs.declared_trump
+
+    state.hands[:,:] = hands[:,:]
+
+    state.tricks[:, :] = obs.tricks[:, :]
+    state.trick_winner[:] = obs.trick_winner[:]
+    state.trick_points[:] = obs.trick_points[:]
+    state.trick_first_player[:] = obs.trick_first_player[:]
+    state.nr_tricks = obs.nr_tricks
+    state.nr_cards_in_trick = obs.nr_cards_in_trick
+
+    # current trick is a view to the trick
+    if obs.nr_played_cards < 36:
+        state.current_trick = state.tricks[state.nr_tricks]
+    else:
+        state.current_trick = None
+
+    state.nr_tricks = obs.nr_tricks
+    state.nr_cards_in_trick = obs.nr_cards_in_trick
+    state.nr_played_cards = obs.nr_played_cards
+    state.points[:] = obs.points[:]
+
+    return state
 
 
 def state_from_complete_game(game: GameState, cards_played: int) -> GameState:
