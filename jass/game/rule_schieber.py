@@ -237,14 +237,18 @@ class RuleSchieber(GameRule):
         error is detected.
         """
         # trump declaration should be present
-        if state.forehand is not None:
-            if state.forehand:
-                assert state.declared_trump == next_player[state.dealer]
+        if state.forehand == 1:
+            assert state.trump != -1
+            assert state.dealer != -1
+            assert state.declared_trump == next_player[state.dealer]
+        elif state.forehand == 0:
+            # either trump has been declared or not yet
+            assert state.trump == -1 or state.declared_trump == partner_player[next_player[state.dealer]]
+            assert state.dealer != -1
+        else:
+            # beginning of game, no trump declaration or push yet
+            assert state.trump == -1
 
-            else:
-                # either trump has been declared or not yet
-                assert state.trump is None or state.declared_trump == partner_player[next_player[state.dealer]]
-            assert state.dealer is not None
 
         # trick winners
         if state.nr_played_cards > 0:
@@ -278,4 +282,7 @@ class RuleSchieber(GameRule):
         else:
             nr_cards_in_current_trick = np.count_nonzero(state.current_trick[:] > -1)
             expected_cards_in_current_trick = (state.nr_played_cards % 4)
-            assert nr_cards_in_current_trick == expected_cards_in_current_trick
+            if nr_cards_in_current_trick != expected_cards_in_current_trick:
+                print(nr_cards_in_current_trick, expected_cards_in_current_trick)
+                print(state)
+                assert nr_cards_in_current_trick == expected_cards_in_current_trick
