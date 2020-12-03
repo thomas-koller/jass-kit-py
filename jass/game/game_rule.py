@@ -4,6 +4,7 @@
 #
 import numpy as np
 
+from game.const import ACTION_SET_FULL_SIZE, TRUMP_FULL_D, TRUMP_FULL_P
 from jass.game.game_observation import GameObservation
 from jass.game.game_state import GameState
 
@@ -63,6 +64,51 @@ class GameRule:
                                     obs.current_trick,
                                     obs.nr_cards_in_trick,
                                     obs.trump)
+
+    def get_valid_actions_from_obs(self, obs: GameObservation) -> np.ndarray:
+        """
+        Get the (full) set from valid actions from observation.
+        Args:
+            obs: The observation
+
+        Returns:
+            the action (either trump or card, encoded as Full Actions, see const.py)
+        """
+        valid = np.zeros(ACTION_SET_FULL_SIZE, dtype=np.int32)
+        if obs.trump == -1:
+            # get a trump action
+            if obs.forehand == -1:
+                # all trump are possible including PUSH
+                valid[TRUMP_FULL_D:ACTION_SET_FULL_SIZE] = 1
+            else:
+                # push is not available
+                valid[TRUMP_FULL_D:TRUMP_FULL_P] = 1
+        else:
+            valid[0:36] = self.get_valid_cards_from_obs(obs)
+        return valid
+
+    def get_valid_actions_from_state(self, state: GameState) -> np.ndarray:
+        """
+        Get the (full) set from valid actions from the state
+        Args:
+            state: The state
+
+        Returns:
+            the action (either trump or card, encoded as Full Actions, see const.py)
+        """
+        valid = np.zeros(ACTION_SET_FULL_SIZE, dtype=np.int32)
+        if state.trump == -1:
+            # get a trump action
+            if state.forehand == -1:
+                # all trump are possible including PUSH
+                valid[TRUMP_FULL_D:ACTION_SET_FULL_SIZE] = 1
+            else:
+                # push is not available
+                valid[TRUMP_FULL_D:TRUMP_FULL_P] = 1
+        else:
+            valid[0:36] = self.get_valid_cards_from_state(state)
+        return valid
+
 
     def calc_points(self, trick: np.ndarray, is_last: bool, trump: int = -1) -> int:
         """

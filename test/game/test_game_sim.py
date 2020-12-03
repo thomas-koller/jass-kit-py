@@ -222,6 +222,18 @@ class GameSimTestCase(unittest.TestCase):
         while not game.is_done():
             game.action_play_card(agent.action_play_card(game.get_observation()))
 
+    def test_random_game_full_action(self):
+        rule = RuleSchieber()
+        game = GameSim(rule=rule)
+        game.init_from_cards(hands=deal_random_hand(), dealer=NORTH)
+
+        while not game.is_done():
+            actions = rule.get_valid_actions_from_state(game.state)
+            action = np.random.choice(np.flatnonzero(actions))
+            print(action)
+            game.action(action)
+            rule.assert_invariants(game.state)
+
 
 
 

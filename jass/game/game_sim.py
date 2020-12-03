@@ -8,7 +8,8 @@
 import copy
 import numpy as np
 
-from jass.game.const import next_player, PUSH, partner_player, NORTH, SOUTH
+from game.game_util import full_to_trump
+from jass.game.const import next_player, PUSH, partner_player, NORTH, SOUTH, TRUMP_FULL_OFFSET
 from jass.game.game_rule import GameRule
 from jass.game.game_state import GameState
 from jass.game.game_state_util import observation_from_state
@@ -117,6 +118,18 @@ class GameSim:
         else:
             # finish current trick
             self._end_trick()
+
+    def action(self, action: int):
+        """
+        Perform an action. The action can be a card or a trump.
+        Args:
+            action: full action that is either card or trump
+        """
+        if action < TRUMP_FULL_OFFSET:
+            self.action_play_card(action)
+        else:
+            trump_action = full_to_trump(action)
+            self.action_trump(trump_action)
 
     def is_done(self):
         """

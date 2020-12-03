@@ -1,4 +1,9 @@
 import unittest
+
+from jass.game.game_util import deal_random_hand
+
+from jass.game.game_sim import GameSim
+
 from jass.game.const import *
 from jass.game.rule_schieber import RuleSchieber
 
@@ -132,6 +137,27 @@ class RuleSchieberTestCase(unittest.TestCase):
         expected = np.zeros(36, np.int32)
         expected[[C7, C6, H9, H8, H6]] = 1
         self.assertTrue(np.all(expected == valid))
+
+    def test_valid_actions(self):
+        rule = RuleSchieber()
+        game = GameSim(rule=rule)
+        game.init_from_cards(hands=deal_random_hand(), dealer=NORTH)
+
+        actions = rule.get_valid_actions_from_state(game.state)
+        self.assertEqual(7, actions.sum())
+
+        game.action(TRUMP_FULL_P)
+
+        actions = rule.get_valid_actions_from_state(game.state)
+        self.assertEqual(6, actions.sum())
+
+        game.action(TRUMP_FULL_D)
+
+        actions = rule.get_valid_actions_from_state(game.state)
+        self.assertEqual(9, actions.sum())
+
+
+
 
 
 if __name__ == '__main__':
