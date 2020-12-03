@@ -6,7 +6,7 @@ import numpy as np
 
 from typing import List
 
-from jass.game.const import card_ids, card_strings
+from jass.game.const import card_ids, card_strings, TRUMP_FULL_OFFSET
 
 """
 Utilities
@@ -130,3 +130,11 @@ def deal_random_hand() -> np.ndarray:
     hands[3, cards[27:39]] = 1
 
     return hands
+
+
+def full_to_trump(full_action: int) -> int:
+    return full_action - TRUMP_FULL_OFFSET
+
+
+def trump_to_full(action: int) -> int:
+    return action + TRUMP_FULL_OFFSET

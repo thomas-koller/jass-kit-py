@@ -318,3 +318,14 @@ same_team = np.array(
 
 # team 0/1 of players
 team = np.array([0, 1, 0, 1])
+
+# alternativevalues for trump for 'full' actions, i.e.both trump and cards are valid actions
+TRUMP_FULL_OFFSET = 36
+TRUMP_FULL_D = TRUMP_FULL_OFFSET + DIAMONDS
+TRUMP_FULL_H = TRUMP_FULL_OFFSET + HEARTS
+TRUMP_FULL_S = TRUMP_FULL_OFFSET + SPADES
+TRUMP_FULL_C = TRUMP_FULL_OFFSET + CLUBS
+TRUMP_FULL_O = TRUMP_FULL_OFFSET + OBE_ABE
+TRUMP_FULL_U = TRUMP_FULL_OFFSET + UNE_UFE
+TRUMP_FULL_P = TRUMP_FULL_OFFSET + PUSH_ALT
+ACTION_SET_FULL_SIZE = TRUMP_FULL_P + 1
