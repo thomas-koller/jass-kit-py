@@ -8,7 +8,7 @@
 import copy
 import numpy as np
 
-from game.game_util import full_to_trump
+from jass.game.game_util import full_to_trump
 from jass.game.const import next_player, PUSH, partner_player, NORTH, SOUTH, TRUMP_FULL_OFFSET
 from jass.game.game_rule import GameRule
 from jass.game.game_state import GameState

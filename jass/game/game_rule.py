@@ -4,7 +4,7 @@
 #
 import numpy as np
 
-from game.const import ACTION_SET_FULL_SIZE, TRUMP_FULL_D, TRUMP_FULL_P
+from jass.game.const import ACTION_SET_FULL_SIZE, TRUMP_FULL_D, TRUMP_FULL_P
 from jass.game.game_observation import GameObservation
 from jass.game.game_state import GameState
 
@@ -108,7 +108,6 @@ class GameRule:
         else:
             valid[0:36] = self.get_valid_cards_from_state(state)
         return valid
-
 
     def calc_points(self, trick: np.ndarray, is_last: bool, trump: int = -1) -> int:
         """
