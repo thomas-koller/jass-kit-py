@@ -22,7 +22,7 @@ setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        'numpy>=1.18'
+        'numpy==1.18.5'
     ],
     python_requires='>=3.6'
 )
