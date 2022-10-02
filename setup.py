@@ -9,7 +9,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="jass_kit",
-    version="2.0.3",
+    version="2.0.4",
     author="ABIZ HSLU",
     author_email="thomas.koller@hslu.ch",
     description="Package for the game of jass",
@@ -22,7 +22,7 @@ setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        'numpy==1.18.5'
+        'numpy'
     ],
     python_requires='>=3.6'
 )
