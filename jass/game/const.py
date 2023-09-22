@@ -179,7 +179,7 @@ card_strings = np.array([
     'C8',
     'C7',
     'C6',
-], np.str)
+], str)
 
 # dictionary to get the ids from the strings:
 # noinspection PyPep8
@@ -314,7 +314,7 @@ same_team = np.array(
         [False, True, False, True],
         [True, False, True, False],
         [False, True, False, True]
-    ], np.bool)
+    ], bool)
 
 # team 0/1 of players
 team = np.array([0, 1, 0, 1])
