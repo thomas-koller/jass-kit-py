@@ -84,7 +84,7 @@ class JassConstTestCase(unittest.TestCase):
         b = a.reshape((4, 9))
         self.assertEqual(b[H, :].sum(), 9)
 
-        c = np.reshape(a, newshape=(4, 9))
+        c = np.reshape(a, shape=(4, 9))
         self.assertEqual(c[H, :].sum(), 9)
 
 

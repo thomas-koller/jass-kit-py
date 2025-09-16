@@ -38,6 +38,9 @@ class GameObservation:
     The observation is usually from the point of view of the current player, but can also be from the point of view
     of another players. In that case, the hand array are the cards of that player. In order to distinguish between
     these cases, the variable GameObservation.player_view is used.
+
+    The observation can be public, then no hands are included. This is marked by player_view = -1. In that case,
+    a observation where 36 cards are played should be possible (to be tested).
     """
 
     # version of game observation (in json)
@@ -173,8 +176,11 @@ class GameObservation:
         # cards in the hand of the players (empty if no more cards)
         hand_empty = dict(hand=[])
         player_data = [hand_empty, hand_empty, hand_empty, hand_empty]
-        hand = dict(hand=convert_one_hot_encoded_cards_to_str_encoded_list(self.hand))
-        player_data[self.player_view] = hand
+
+        # if the player_view is set to -1, we calculate the encoding for a public observer and do not encode the hand
+        if self.player_view != -1:
+            hand = dict(hand=convert_one_hot_encoded_cards_to_str_encoded_list(self.hand))
+            player_data[self.player_view] = hand
         data['player'] = player_data
 
         data['jassTyp'] = JASS_SCHIEBER

@@ -30,7 +30,7 @@ class GameJSonTestCase(unittest.TestCase):
             obs = game.get_observation()
             data = obs.to_json()
             data['gameId'] = '0'
-            print(json.dumps(data))
+            # print(json.dumps(data))
             action = agent.action_play_card(obs)
 
             # read/write observation

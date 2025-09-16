@@ -74,6 +74,11 @@ class MyTestCase(unittest.TestCase):
             obs_read = GameObservation.from_json(json.loads(json_str))
             self.assertTrue(obs == obs_read)
 
+        # check public observation for all players
+        obs = observation_from_state(game.state, player=-1)
+        self.assertTrue((obs.hand == np.zeros(36, dtype=np.int8)).all())
+        obs_dict = obs.to_json()
+
         # start game with pushing for trump selection
         game.action_trump(PUSH)
         json_str = json.dumps(game.state.to_json())
@@ -170,20 +175,20 @@ class MyTestCase(unittest.TestCase):
         # start game with pushing for trump selection
         game.action_trump(PUSH)
 
-        obs = observation_from_state(game.state, player=-1)
+        obs = observation_from_state(game.state, player=game.state.player)
         state_back = state_from_observation(obs, game.state.hands)
         self.assertTrue(game.state == state_back)
 
         # use agent to select trump
         game.action_trump(agent.action_trump(game.get_observation()))
-        obs = observation_from_state(game.state, player=-1)
+        obs = observation_from_state(game.state, player=game.state.player)
         state_back = state_from_observation(obs, game.state.hands)
         self.assertTrue(game.state == state_back)
 
         while not game.is_done():
             game.action_play_card(agent.action_play_card(game.get_observation()))
 
-            obs = observation_from_state(game.state, player=-1)
+            obs = observation_from_state(game.state, player=game.state.player)
             state_back = state_from_observation(obs, game.state.hands)
             self.assertTrue(game.state == state_back)
 

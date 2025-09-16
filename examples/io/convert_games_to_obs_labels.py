@@ -73,7 +73,7 @@ def generate_logs(files, output: str, output_dir: str, max_entries_per_file: int
                         state = state_from_complete_game(game, cards_played=card)
                         rule_debug.assert_invariants(state)
 
-                        obs = observation_from_state(state)
+                        obs = observation_from_state(state, state.player)
                         action = game.get_card_played(card)
                         if action == -1:
                             raise Exception('Illegal action found')
@@ -128,7 +128,7 @@ def generate_logs_trump(files, output: str, output_dir: str, max_entries_per_fil
                     # create entry for each trump selection
                     #
                     state = state_for_trump_from_complete_game(entry_game_log.game, for_forhand=True)
-                    obs = observation_from_state(state)
+                    obs = observation_from_state(state, state.player)
                     if entry_game_log.game.forehand == 1:
                         action = entry_game_log.game.trump
                     else:
@@ -143,7 +143,7 @@ def generate_logs_trump(files, output: str, output_dir: str, max_entries_per_fil
                     if action == PUSH:
                         # add entry for rearhand trump selection
                         state = state_for_trump_from_complete_game(entry_game_log.game, for_forhand=False)
-                        obs = observation_from_state(state)
+                        obs = observation_from_state(state, state.player)
                         entry_obs = GameObsActionLogEntry(obs=obs,
                                                           action=entry_game_log.game.trump,
                                                           date=entry_game_log.date,

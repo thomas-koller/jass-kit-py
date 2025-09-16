@@ -230,11 +230,9 @@ class GameSimTestCase(unittest.TestCase):
         while not game.is_done():
             actions = rule.get_valid_actions_from_state(game.state)
             action = np.random.choice(np.flatnonzero(actions))
-            print(action)
+            #print(action)
             game.action(action)
             rule.assert_invariants(game.state)
-
-
 
 
 if __name__ == '__main__':

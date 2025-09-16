@@ -62,7 +62,7 @@ class GameSim:
         Returns:
             The observation for the current player.
         """
-        return observation_from_state(self._state)
+        return observation_from_state(self._state, self._state.player)
 
     def action_trump(self, action: int) -> None:
         if self._state.forehand == -1:

@@ -47,14 +47,14 @@ def calculate_points_from_tricks(state: 'GameState') -> np.ndarray:
     return points
 
 
-def observation_from_state(state: GameState, player: int = -1) -> GameObservation:
+def observation_from_state(state: GameState, player: int) -> GameObservation:
     """
-    Initialize observation from game state for the given player or the current player if the player is not
-    supplied.
+    Initialize observation from game state for the given player or as a public observations (without hands) if
+    player is -1
 
     Args:
         state: The game state from which to determine the observation
-        player: player for which to create the observation or -1 for the current player
+        player: player for which to create the observation or -1 for the public observation
 
     Returns:
         the observation for a given game state for the view of the player
@@ -64,16 +64,13 @@ def observation_from_state(state: GameState, player: int = -1) -> GameObservatio
     obs.dealer = state.dealer
     obs.player = state.player
 
-    if player == -1:
-        obs.player_view = state.player
-    else:
-        obs.player_view = player
+    obs.player_view = player
 
     obs.trump = state.trump
     obs.forehand = state.forehand
     obs.declared_trump = state.declared_trump
 
-    if state.nr_played_cards < 36:
+    if state.nr_played_cards < 36 and obs.player_view != -1:
         obs.hand[:] = state.hands[obs.player_view, :]
 
     obs.tricks[:, :] = state.tricks[:, :]
