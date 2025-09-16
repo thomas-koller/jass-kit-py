@@ -9,8 +9,8 @@ with open("README.md", "r") as fh:
 
 setup(
     name="jass_kit",
-    version="2.0.5",
-    author="ABIZ HSLU",
+    version="2.1",
+    author="HSLU",
     author_email="thomas.koller@hslu.ch",
     description="Package for the game of jass",
     long_description=long_description,
