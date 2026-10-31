@@ -33,7 +33,7 @@ def create_app():
     # add some players
     app.add_player('random', AgentRandomSchieber())
     app.add_player('rule_based', AgentRuleBasedSchieber())
-    app.add_player('mcts', AgentDeterminizationMCTS())
+    app.add_player('mcts', AgentDeterminizationMCTS(time_budget=10.0))
 
     return app
 
