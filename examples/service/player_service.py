@@ -11,6 +11,7 @@ from jass.service.player_service_app import PlayerServiceApp
 from jass.agents.agent_random_schieber import AgentRandomSchieber
 from jass.agents.agent_rule_based_schieber import AgentRuleBasedSchieber
 from jass.agents.mcts.agent_determinization_mcts import AgentDeterminizationMCTS
+from jass.agents.trump.trump_model import TrumpModel, default_model_path
 
 
 def create_app():
@@ -34,8 +35,19 @@ def create_app():
     app.add_player('random', AgentRandomSchieber())
     app.add_player('rule_based', AgentRuleBasedSchieber())
     app.add_player('mcts', AgentDeterminizationMCTS(time_budget=4.0))
+    app.add_player('mcts_ml', AgentDeterminizationMCTS(time_budget=4.0, trump_model=load_trump_model()))
 
     return app
+
+
+def load_trump_model():
+    """The trained trump model, or None (rule based trump) if it cannot be loaded, so the service always starts."""
+    try:
+        return TrumpModel.load()
+    except Exception:
+        logging.getLogger(__name__).warning('No trump model at %s, mcts_ml selects trump rule based',
+                                            default_model_path(), exc_info=True)
+        return None
 
 
 if __name__ == '__main__':

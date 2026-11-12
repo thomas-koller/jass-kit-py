@@ -18,6 +18,10 @@ RUN pip install '.[service]' gunicorn
 
 COPY examples/service ./service
 
+# trained models; the package is installed into site-packages, so tell it where they are
+COPY models ./models
+ENV JASS_TRUMP_MODEL=/app/models/trump_linear.npz
+
 RUN useradd --create-home --uid 1000 jass
 USER jass
 

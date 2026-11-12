@@ -14,6 +14,7 @@ from jass.agents.agent import Agent
 from jass.agents.agent_rule_based_schieber import AgentRuleBasedSchieber
 from jass.agents.mcts.mcts import MCTS, best_card
 from jass.agents.mcts.sampling import sample_hands
+from jass.agents.trump.trump_model import TrumpModel
 from jass.game.game_observation import GameObservation
 from jass.game.game_state_util import state_from_observation
 from jass.game.rule_schieber import RuleSchieber
@@ -21,13 +22,15 @@ from jass.game.rule_schieber import RuleSchieber
 
 class AgentDeterminizationMCTS(Agent):
     """
-    Select trump like the rule based agent and play the card with the most visits summed over searches on
-    sampled hands. If the search fails, the card of the rule based agent is played.
+    Select trump with the trained trump model if one is given, otherwise like the rule based agent, and play the
+    card with the most visits summed over searches on sampled hands. If the search fails, the card of the rule
+    based agent is played.
     """
     def __init__(self, time_budget: float = 1.0, iterations: Optional[int] = None, iterations_per_sample: int = 100,
-                 c: float = math.sqrt(2), seed: Optional[int] = None):
+                 c: float = math.sqrt(2), seed: Optional[int] = None, trump_model: Optional[TrumpModel] = None):
         """
         Args:
+            trump_model: trained trump selection, None selects trump with the rule based agent
             time_budget: seconds of search for each card, a running sample is finished after the deadline
             iterations: total number of iterations for each card, replaces the time budget if given
             iterations_per_sample: number of iterations of the search on each sampled deal
@@ -42,8 +45,14 @@ class AgentDeterminizationMCTS(Agent):
         self._rng = np.random.default_rng(seed)
         self._mcts = MCTS(self._rule, self._rng, c=c)
         self._rule_based = AgentRuleBasedSchieber()
+        self._trump_model = trump_model
 
     def action_trump(self, obs: GameObservation) -> int:
+        if self._trump_model is not None:
+            try:
+                return self._trump_model.action_trump(obs)
+            except Exception:
+                self._logger.warning('Trump model failed, selecting trump like the rule based agent', exc_info=True)
         return self._rule_based.action_trump(obs)
 
     def action_play_card(self, obs: GameObservation) -> int:

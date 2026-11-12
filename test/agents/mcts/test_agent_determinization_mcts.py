@@ -9,7 +9,7 @@ from jass.agents.agent_rule_based_schieber import AgentRuleBasedSchieber
 from jass.agents.mcts.agent_determinization_mcts import AgentDeterminizationMCTS
 from jass.agents.mcts.mcts import MCTS
 from jass.arena.arena import Arena
-from jass.game.const import PUSH
+from jass.game.const import PUSH, SPADES
 from jass.game.game_state_util import observation_from_state
 from jass.game.rule_schieber import RuleSchieber
 from .positions import random_observation
@@ -30,6 +30,21 @@ class AgentDeterminizationMCTSTestCase(unittest.TestCase):
     def test_trump_after_push_is_not_push(self):
         obs = observation(['D7', 'D8', 'H6', 'H8', 'S7', 'SQ', 'C9', 'C7', 'C10'], forehand=0)
         self.assertNotEqual(AgentDeterminizationMCTS(iterations=10, seed=0).action_trump(obs), PUSH)
+
+    def test_trump_from_model_when_given(self):
+        model = mock.Mock()
+        model.action_trump.return_value = SPADES
+        agent = AgentDeterminizationMCTS(iterations=10, seed=0, trump_model=model)
+        obs = observation(['D7', 'D8', 'H6', 'H8', 'S7', 'SQ', 'C9', 'C7', 'C10'])
+        self.assertEqual(SPADES, agent.action_trump(obs))
+        model.action_trump.assert_called_once_with(obs)
+
+    def test_trump_falls_back_to_rule_based_when_model_fails(self):
+        model = mock.Mock()
+        model.action_trump.side_effect = RuntimeError('broken model')
+        agent = AgentDeterminizationMCTS(iterations=10, seed=0, trump_model=model)
+        obs = observation(['D7', 'D8', 'H6', 'H8', 'S7', 'SQ', 'C9', 'C7', 'C10'])
+        self.assertEqual(AgentRuleBasedSchieber().action_trump(obs), agent.action_trump(obs))
 
     def test_valid_cards_in_random_positions(self):
         rule = RuleSchieber()

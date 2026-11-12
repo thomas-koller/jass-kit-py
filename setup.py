@@ -26,7 +26,9 @@ setup(
     ],
     extras_require={
         # only needed to serve an agent over the network (jass.service)
-        'service': ['flask']
+        'service': ['flask'],
+        # only needed to train models (jass.train), never in the bot image
+        'train': ['pandas', 'scikit-learn']
     },
     python_requires='>=3.6'
 )
