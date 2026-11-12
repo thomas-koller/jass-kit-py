@@ -60,8 +60,12 @@ hands of the other players (respecting the colors they are known to be out
 of), searches each sample and plays the card with the most visits over all
 samples. It searches for `time_budget` seconds per card (default 1) and falls
 back to the rule based card if the search fails. The service serves it as
-`mcts`, and `examples/arena/compare_mcts.py` measures it against a reference
-agent on fixed deals, played from both sides.
+`mcts`, and as `mcts_ml` with the trained trump model of `jass.agents.trump`.
+
+`examples/arena/evaluate.py` measures one agent against others with
+`jass.arena.evaluation`: fixed deals, each played from both sides, reported as
+the mean point difference per deal with a 95% confidence interval and logged to
+`results/evaluations.jsonl`.
 
 The two methods return **encoded integers**, described below. Returning an
 invalid card is an error; `get_valid_cards_from_obs` tells you which cards are

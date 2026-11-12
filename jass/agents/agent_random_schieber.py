@@ -14,14 +14,14 @@ class AgentRandomSchieber(Agent):
     """
     Randomly select actions for the game of jass (Schieber)
     """
-    def __init__(self):
+    def __init__(self, seed=None):
         # log actions
         self._logger = logging.getLogger(__name__)
         # self._logger.setLevel(logging.INFO)
         # Use rule object to determine valid actions
         self._rule = RuleSchieber()
         # init random number generator
-        self._rng = np.random.default_rng()
+        self._rng = np.random.default_rng(seed)
 
     def action_trump(self, obs: GameObservation) -> int:
         """
